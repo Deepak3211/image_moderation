@@ -1,0 +1,153 @@
+.home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+}
+
+
+.input__header {
+  display: flex;
+  margin-top: 2rem;
+  align-self: flex-end;
+  align-items: center;
+  margin-right: 2rem;
+  position: sticky;
+  top: -1px;
+  z-index: 1;
+
+
+}
+
+.input__profileIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: whitesmoke;
+  box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.5);
+
+
+}
+
+
+.input__header>.input__logout,
+.input__profile {
+  font-size: 25px;
+  color: gray;
+  margin-left: 1rem;
+  object-fit: contain;
+  cursor: pointer;
+
+}
+
+.input__logoutIcon {
+  width: 40px;
+  height: 40px;
+  /* border-radius: 50%; */
+
+
+}
+
+.input__profile>.user__activeSign {
+  color: #23764d;
+  position: absolute;
+  display: flex;
+  align-self: flex-end;
+  margin-left: 30px;
+  font-size: 22px;
+  margin-top: -17px;
+
+
+
+
+}
+
+.input__logout>h3 {
+  font-size: medium;
+  margin-top: 5px;
+
+
+}
+
+.input__profile>h3 {
+  font-size: medium;
+  text-align: center;
+  margin-top: 5px;
+
+}
+
+.input__logout:hover {
+  color: black;
+}
+
+.input__profile:hover {
+  color: black;
+}
+
+.input__container {
+  position: sticky;
+  top: -1px;
+  z-index: 1;
+  background-color: #FFFFFF;
+  padding: 10px;
+  margin-top: 5vh;
+  width: 400px;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: .5px solid lightgray;
+  box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.5);
+
+
+}
+
+.input__container>form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.input__container>form>input {
+  border: .5px solid lightgray;
+  border-radius: 30px;
+  padding: 10px;
+  color: gray;
+  flex: 1;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  outline-width: none;
+  outline-style: none;
+  font-weight: 500;
+  font-size: larger;
+}
+
+.input__container>form>button {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .input__container {
+    /* display: none; */
+    margin: 1rem;
+    flex: 0;
+    width: 330px;
+  }
+
+  .input__header {
+    margin-right: 5rem;
+    display: flex;
+    background-color: whitesmoke;
+    position: sticky;
+    top: 50;
+    box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+
+
+
+  }
+}

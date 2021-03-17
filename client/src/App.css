@@ -1,0 +1,39 @@
+.auth__container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* background-color: antiquewhite; */
+  /* margin-top: 20px ; */
+  /* margin-left: 70vw; */
+}
+
+.authNav__signUp,
+.authNav__signIn {
+  outline-style: none;
+  padding: 10px;
+  margin: 10px;
+  font-weight: bolder;
+  font-size: large;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.5);
+  background-color: rgba(41, 236, 171, 0.534);
+
+}
+
+.authNav__signUp:hover,
+.authNav__signIn:hover {
+  background-color: antiquewhite;
+}
+
+@media screen and (max-width: 600px) {
+  .auth__container {
+    width: 330px;
+    margin: 20px;
+    overflow: hidden;
+
+  }
+
+
+}
