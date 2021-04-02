@@ -6,12 +6,12 @@ import { SET_USER } from '../../context/action.types';
 import { Link } from 'react-router-dom';
 const SignIn = () => {
 	const [{user}, dispatch] = useStateValue();
-
+// console.log(user);
 	const [signInEmail, setSignInEmail] = useState('');
 	const [signInPwd, setSignInPwd] = useState('');
 
 	const onSubmitSignIn = (e) => {
-		fetch(`${process.env.REACT_APP_ROUTES}/signIn`, {
+		fetch(` http://localhost:5050/signIn`, {
 			method: 'post',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
@@ -21,13 +21,13 @@ const SignIn = () => {
 		})
 			.then(res => res.json())
 			.then(data => {
-				// console.log(data);
-				if (data.id) {
+				console.log(data);
+				if (data.id,data.token) {
 					dispatch({
 						type: 'SET_USER',
 						user: data
 					})
-					sessionStorage.setItem('userData', JSON.stringify(data));
+					sessionStorage.setItem('userData', JSON.stringify({token:data.token,email:data.email}));
 					
 				}	
 			}).catch(error=> alert('something went wrong'))

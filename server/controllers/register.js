@@ -1,4 +1,4 @@
-const handleRegister = (req, res, pool, bcrypt) => {
+const handleRegister = (req, res, pool, bcrypt,jwt) => {
   const { email, full_name, password } = req.body;
   if (!email || !full_name || !password) {
     return res.status(400).json('Incorrect form submission');
@@ -25,11 +25,22 @@ const handleRegister = (req, res, pool, bcrypt) => {
         joined
          
       ])
-      await client.query('SELECT * FROM users WHERE email= $1',[email], (err, data) => {
-    //  console.log(data.rows[0]);
-    res.status(200).json(data.rows[0])
+      await client.query('SELECT * FROM users WHERE email= $1',[email], (err, user) => {
+        //  console.log(data.rows[0]);
+        // res.status(200).json(data.rows[0])
+        
+        console.log(user.rows[0]);
+        const userData = user.rows[0]
+        jwt.sign({id:userData.id,full_name:userData.full_name,email:userData.email}, process.env.jwtSecret, {
+          expiresIn: 3600
+        }, (err, token) => {
+          if (err) {
+            throw err;
+          }
+          res.status(201).json({id:userData.id,email:userData.email,token})
+        })
       })
-     
+
       await client.query('COMMIT')
       
     } catch (error) {

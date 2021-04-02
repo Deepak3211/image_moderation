@@ -38,26 +38,25 @@ const handleApiCall = async (req,res)=>{
         )
     }
 
-    const handlePost = (req,res,database)=>{
-        const {image,predicted_concepts,probability,post_date} = req.body;
+    const handlePost = (req,res,pool)=>{
+        const {full_name,image,predicted_concepts,probability,posted} = req.body;
         if(!image ){
             return res.status(400).json('Please proive an image')
         }
-
-       
         ;(async ()=>{
             const client = await pool.connect();
-            const post_date = new Date();
+            const posted = new Date();
 
             try{
               
-                const postData = 'INSERT INTO posts(image,predicted_concepts,probability,posted) VALUES($1,$2,$3,$4) RETURNING id';
-                await client.query(postData,[image,predicted_concepts,probability,post_date])
+                const postData = 'INSERT INTO posts(full_name,image,predicted_concepts,probability,posted) VALUES($1,$2,$3,$4,$5) RETURNING id';
+                await client.query(postData,[full_name, image,predicted_concepts,probability,posted])
             }
             catch(error){
                 throw error;
+
             }
-        })().catch(e=> console.log(e.stack));
+        })().catch(e=> console.log('error occur'));
     }
         module.exports = {
             handleApiCall,

@@ -7,12 +7,13 @@ import { SET_USER } from '../../context/action.types';
 import { Link } from 'react-router-dom';
 const Register = () => {
 	const [{ user }, dispatch] = useStateValue();
+	console.log(user)
 
 	const [userName, setUserName] = useState('');
 	const [userEmail, setUserEmail] = useState('');
 	const [userPwd, setUserPwd] = useState('');
 	const register =  (e) => {
-	fetch(`${process.env.REACT_APP_ROUTES}/register`,{
+	fetch(` http://localhost:5050/register`,{
 		method: 'post',
 		headers:{
 			'Content-Type': 'application/json',
@@ -25,7 +26,8 @@ const Register = () => {
 		}),
 	})
 	.then(res=> res.json())
-	.then(userData=>{
+		.then(userData => {
+		console.log(userData);
 		if(userData.id){
 			dispatch({
 				type: SET_USER,

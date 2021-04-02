@@ -15,7 +15,7 @@ const [{user,posts},dispatch] = useStateValue();
 const [inputData, setInputData] = useState('');
 
 const fetchPosts = async () => {
-await axios.get(`${process.env.REACT_APP_ROUTES}/image`)
+await axios.get(`http://localhost:5050/image`)
 .then((response => {
 // console.log(response)
 dispatch({
@@ -56,7 +56,7 @@ fetchPosts()
 const sendPost = (e) => {
 e.preventDefault();
 setInputData('')
-axios.post(`${process.env.REACT_APP_ROUTES}/imageUrl`, {
+axios.post(`http://localhost:5050/imageUrl`, {
 inputs: inputData
 
 })
@@ -64,7 +64,7 @@ inputs: inputData
 
 // console.log(response.data);
 if (response) {
-axios.post(`${process.env.REACT_APP_ROUTES}/image`, {
+axios.post(`http://localhost:5050/image`, {
 full_name: user?.email.substring(0, user.email.lastIndexOf('@')) || user?.full_name,  
 image: inputData,
 predicted_concepts: response.data.name,
@@ -119,7 +119,8 @@ placeholder = 'Paste URL (only Start with https://)'
 
 
 {
-return post.predicted_concepts === 'nsfw' && post?.probability >= '0.75' ? (
+      console.log(post);
+            return post.predicted_concepts === 'nsfw' && post?.probability >= '0.75' ? (
 <Nsfw
 key={post?.id}
 full_name = {post?.full_name}
