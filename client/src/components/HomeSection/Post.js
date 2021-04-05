@@ -29,4 +29,5 @@ const Post = ({full_name, name, value, image }) => {
   )
 }
 
+
 export default Post

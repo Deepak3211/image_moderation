@@ -15,7 +15,7 @@ const [{user,posts},dispatch] = useStateValue();
 const [inputData, setInputData] = useState('');
 
 const fetchPosts = async () => {
-await axios.get(`http://localhost:5050/image`)
+await axios.get(`${process.env.REACT_APP_ROUTES}/image`)
 .then((response => {
 // console.log(response)
 dispatch({
@@ -56,7 +56,7 @@ fetchPosts()
 const sendPost = (e) => {
 e.preventDefault();
 setInputData('')
-axios.post(`http://localhost:5050/imageUrl`, {
+axios.post(`${process.env.REACT_APP_ROUTES}/imageUrl`, {
 inputs: inputData
 
 })
@@ -64,7 +64,7 @@ inputs: inputData
 
 // console.log(response.data);
 if (response) {
-axios.post(`http://localhost:5050/image`, {
+axios.post(`${process.env.REACT_APP_ROUTES}/image`, {
 full_name: user?.email.substring(0, user.email.lastIndexOf('@')) || user?.full_name,  
 image: inputData,
 predicted_concepts: response.data.name,
@@ -108,7 +108,7 @@ return (
 <input type="text"
 value = {inputData}
 onChange = {e=> setInputData(e.target.value)}
-placeholder = 'Paste URL (only Start with https://)'
+placeholder = 'Paste URL of the image you want to test'
 />
 </form>
 </div>
@@ -119,8 +119,7 @@ placeholder = 'Paste URL (only Start with https://)'
 
 
 {
-      console.log(post);
-            return post.predicted_concepts === 'nsfw' && post?.probability >= '0.75' ? (
+return (post.predicted_concepts === 'nsfw' && post?.probability >= '0.30' )? (
 <Nsfw
 key={post?.id}
 full_name = {post?.full_name}

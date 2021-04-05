@@ -118,8 +118,8 @@
   padding: 10px;
   color: gray;
   flex: 1;
-  margin-left: 10px;
-  margin-bottom: 10px;
+  margin: 10px;
+  /* margin-bottom: 10px; */
   outline-width: none;
   outline-style: none;
   font-weight: 500;
