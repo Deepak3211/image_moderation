@@ -21,13 +21,15 @@ const SignIn = () => {
 		})
 			.then(res => res.json())
 			.then(data => {
-				// console.log(data);
-				if (data.id) {
+				const { token, email } = data;
+				
+				console.log(data);
+				if (data.token) {
 					dispatch({
 						type: 'SET_USER',
 						user: data
 					})
-					sessionStorage.setItem('userData', JSON.stringify(data));
+					sessionStorage.setItem('userData', JSON.stringify({token,email }));
 					
 				}
 				else {
@@ -35,6 +37,8 @@ const SignIn = () => {
 				}
 			}).catch(error=> alert('something went wrong'))
 		e.preventDefault();
+
+
 	}
   return (
 		<div className='login'>

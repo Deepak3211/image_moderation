@@ -25,13 +25,15 @@ const Register = () => {
 		}),
 	})
 	.then(res=> res.json())
-	.then(userData=>{
-		if(userData.id){
+		.then(userData => {
+			const { token,email } = userData;
+			console.log(userData)
+		if(userData.token){
 			dispatch({
 				type: SET_USER,
 				user: userData
 			})
-			sessionStorage.setItem('userData', JSON.stringify(userData));
+			sessionStorage.setItem('userData', JSON.stringify({token,email}));
 		}
 		else{
 			dispatch({

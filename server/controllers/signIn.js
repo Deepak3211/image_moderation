@@ -14,13 +14,13 @@ const handleSignIn =(req,res,pool,bcrypt,jwt)=>{
         // console.log(user[0]);
         // console.log(user.rows[0]);
        const userData = user.rows[0]
-        jwt.sign({id:userData.id,email:userData.email}, process.env.jwtSecret, {
+        jwt.sign({id:userData.id}, process.env.jwtSecret, {
           expiresIn: 3600
         }, (err, token) => {
           if (err) {
             throw err;
           }
-          res.status(200).json({id:userData.id,email:userData.email,token})
+          res.status(200).json({email:userData.email,token})
         })
       })
 
