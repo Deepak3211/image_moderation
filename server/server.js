@@ -47,7 +47,7 @@ app.post('/register', (req,res)=>{
 
 
 //signIn
-app.post('/signIn',(req,res)=>{
+app.post('/signIn',auth,(req,res)=>{
   signIn.handleSignIn(req,res,pool,bcrypt,jwt);
   // res.status(200).json(req.body);
   // res.status(200).json('😆')
@@ -57,20 +57,20 @@ app.post('/signIn',(req,res)=>{
 
 // post
 
-app.post('/imageUrl',(req,res)=>{
+app.post('/imageUrl',auth,(req,res)=>{
  image.handleApiCall(req,res)
 //  res.status(200).json(req.body)
 //  console.log(req);
 })
 
-app.post('/image',(req,res)=>{
+app.post('/image',auth,(req,res)=>{
   image.handlePost(req, res, pool);
   pusher.trigger("posts", "inserted", req.body);
   res.status(200).json(req.body);
 })
 // get all the posts
 
-app.get('/image', (req, res) => {
+app.get('/image',auth, (req, res) => {
   pool.query('SELECT * FROM posts ORDER BY posted DESC', (error, data) => {
     if (error) {
      res.status(404).json('Not Found')

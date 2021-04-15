@@ -15,7 +15,12 @@ const [{user,posts},dispatch] = useStateValue();
 const [inputData, setInputData] = useState('');
 
 const fetchPosts = async () => {
-await axios.get(`${process.env.REACT_APP_ROUTES}/image`)
+await axios.get(`${process.env.REACT_APP_ROUTES}/image`, {
+headers: {
+'Content-Type': 'application/json',
+'token': 'wild-card'
+}
+})
 .then((response => {
 // console.log(response)
 dispatch({
@@ -31,18 +36,18 @@ useEffect(() => {
 
 
 const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_SECRET}`, {
-      cluster: 'ap2'
+cluster: 'ap2'
 });
 
 const channel = pusher.subscribe('posts');
 channel.bind('inserted', function (data) {
-      // alert(JSON.stringify(data));
-      // console.log(data);
-      fetchPosts();
+// alert(JSON.stringify(data));
+// console.log(data);
+fetchPosts();
 });
 return () => {
-      channel.unbind_all();
-      channel.unsubscribe();
+channel.unbind_all();
+channel.unsubscribe();
 }
 
 }, []);
@@ -56,7 +61,12 @@ fetchPosts()
 const sendPost = (e) => {
 e.preventDefault();
 setInputData('')
-axios.post(`${process.env.REACT_APP_ROUTES}/imageUrl`, {
+axios.post(`${process.env.REACT_APP_ROUTES}/imageUrl`,{
+headers: {
+'Content-Type': 'application/json',
+'token': 'wild-card'
+}
+}, {
 inputs: inputData
 
 })
@@ -64,7 +74,12 @@ inputs: inputData
 
 // console.log(response.data);
 if (response) {
-axios.post(`${process.env.REACT_APP_ROUTES}/image`, {
+axios.post(`${process.env.REACT_APP_ROUTES}/image`,{
+headers: {
+'Content-Type': 'application/json',
+'token': 'wild-card'
+}
+}, {
 full_name: user?.email.substring(0, user.email.lastIndexOf('@')) || user?.full_name,  
 image: inputData,
 predicted_concepts: response.data.name,
@@ -90,9 +105,9 @@ return (
 <div className = 'home'>
 <div className="input__header">
 <div className="input__profile">
-  <div className='input__profileIcon' >{user?.email[0].toUpperCase() || user?.full_name[0].toUpperCase()}</div>
- <GoPrimitiveDot className='user__activeSign' />
-                        
+<div className='input__profileIcon' >{user?.email[0].toUpperCase() || user?.full_name[0].toUpperCase()}</div>
+<GoPrimitiveDot className='user__activeSign' />
+
 <h3>Hello, { user?.email.substring(0,user.email.lastIndexOf('@')).toUpperCase() || user?.full_name }  </h3>
 </div>
 
@@ -129,9 +144,9 @@ name={post?.predicted_concepts}
 
 ): (
 <Post
-      key={post?.id}
-      full_name={post?.full_name}
-      
+key={post?.id}
+full_name={post?.full_name}
+
 image = {post?.image}
 value = {post?.probability}
 name = {post?.predicted_concepts}

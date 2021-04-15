@@ -16,6 +16,7 @@ const Register = () => {
 		method: 'post',
 		headers:{
 			'Content-Type': 'application/json',
+			'token': 'wild-card'
 
 		},
 		body: JSON.stringify({

@@ -13,7 +13,11 @@ const SignIn = () => {
 	const onSubmitSignIn = (e) => {
 		fetch(`${process.env.REACT_APP_ROUTES}/signIn`, {
 			method: 'post',
-			headers: { 'Content-Type': 'application/json' },
+			headers: {
+				'Content-Type': 'application/json',
+			'token': 'wild-card'
+
+			},
 			body: JSON.stringify({
 				email: signInEmail,
 				password: signInPwd
