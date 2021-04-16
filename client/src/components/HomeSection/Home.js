@@ -15,12 +15,7 @@ const [{user,posts},dispatch] = useStateValue();
 const [inputData, setInputData] = useState('');
 
 const fetchPosts = async () => {
-await axios.get(`${process.env.REACT_APP_ROUTES}/image`, {
-headers: {
-'Content-Type': 'application/json',
-'token': 'wild-card'
-}
-})
+await axios.get(`${process.env.REACT_APP_ROUTES}/image`)
 .then((response => {
 // console.log(response)
 dispatch({
@@ -61,12 +56,7 @@ fetchPosts()
 const sendPost = (e) => {
 e.preventDefault();
 setInputData('')
-axios.post(`${process.env.REACT_APP_ROUTES}/imageUrl`,{
-headers: {
-'Content-Type': 'application/json',
-'token': 'wild-card'
-}
-}, {
+axios.post(`${process.env.REACT_APP_ROUTES}/imageUrl`, {
 inputs: inputData
 
 })
@@ -74,12 +64,8 @@ inputs: inputData
 
 // console.log(response.data);
 if (response) {
-axios.post(`${process.env.REACT_APP_ROUTES}/image`,{
-headers: {
-'Content-Type': 'application/json',
-'token': 'wild-card'
-}
-}, {
+axios.post(`${process.env.REACT_APP_ROUTES}/image`,
+{
 full_name: user?.email.substring(0, user.email.lastIndexOf('@')) || user?.full_name,  
 image: inputData,
 predicted_concepts: response.data.name,
