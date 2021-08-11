@@ -7,7 +7,7 @@ import { SET_USER } from '../../context/action.types';
 import { Link } from 'react-router-dom';
 const Register = () => {
 const [{ user }, dispatch] = useStateValue();
-
+// console.log('user',user);
 const [userName, setUserName] = useState('');
 const [userEmail, setUserEmail] = useState('');
 const [userPwd, setUserPwd] = useState('');
@@ -25,15 +25,16 @@ password: userPwd
 }),
 })
 .then(res=> res.json())
-.then(userData => {
-const { token,email } = userData;
-console.log(userData)
-if(userData.token){
+.then(data => {
+const {email } = data;
+// console.log('userData', data)
+if(data.id){
 dispatch({
 type: SET_USER,
-user: userData
+user: data
 })
-sessionStorage.setItem('userData', JSON.stringify({token,email}));
+sessionStorage.setItem('userData', JSON.stringify(email.substring(0,email.lastIndexOf('@')).toUpperCase() ));
+
 }
 else{
 dispatch({

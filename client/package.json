@@ -40,7 +40,7 @@
       "last 1 safari version"
     ]
   },
-  "resolutions": {
+"resolutions": {
 "normalize-url": "^6.0.1",
 "css-what": "^5.0.1",
 "glob-parent": "5.1.2",

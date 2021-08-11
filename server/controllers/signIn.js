@@ -1,4 +1,4 @@
-const handleSignIn =(req,res,pool,bcrypt,jwt)=>{
+const handleSignIn =(req,res,pool,bcrypt)=>{
 const {email,password} = req.body;
 if(!email || !password){
 return res.status(400).json('Wrong credentials');
@@ -12,16 +12,10 @@ return pool.query('SELECT * FROM users WHERE email = $1',[email])
 .then(user=>{
 // res.json(user.rows[0])
 // console.log(user[0]);
-// console.log(user.rows[0]);
+// console.log(user.rows);
 const userData = user.rows[0]
-jwt.sign({id:userData.id}, process.env.jwtSecret, {
-expiresIn: 3600
-}, (err, token) => {
-if (err) {
-throw err;
-}
-res.status(200).json({email:userData.email,token})
-})
+// console.log('userData', userData);
+res.status(200).json({email:userData.email,id:userData.id})
 })
 
 .catch(error=>res.status(400).json('Unable to get the user'))

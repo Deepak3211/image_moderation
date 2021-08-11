@@ -24,15 +24,15 @@ password: signInPwd
 })
 .then(res => res.json())
 .then(data => {
-const { token, email } = data;
+const { email } = data;
 
-console.log(data);
-if (data.token) {
+// console.log('data',data);
+if (data.id) {
 dispatch({
 type: 'SET_USER',
 user: data
 })
-sessionStorage.setItem('userData', JSON.stringify({token,email }));
+sessionStorage.setItem('userData', JSON.stringify(email.substring(0,email.lastIndexOf('@')).toUpperCase() ));
 
 }
 else {

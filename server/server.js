@@ -6,13 +6,9 @@ const register = require('./controllers/register')
 const signIn = require('./controllers/signIn');
 const image = require('./controllers/posts');
 const Pusher = require('pusher');
-const jwt = require('jsonwebtoken');
-const helmet = require('helmet')
 const app = express();
-const auth = require('./auth')
 app.use(cors());
 app.use(express.json());
-app.use(helmet())
 
 require('dotenv').config()
 const PORT = process.env.PORT || 5050;
@@ -39,7 +35,7 @@ console.log('Error', err);
 
 app.post('/register', (req,res)=>{
 
-register.handleRegister(req,res,pool,bcrypt,jwt)
+register.handleRegister(req,res,pool,bcrypt)
 // res.status(200).json(req.body);
 // console.log(req.body);
 
@@ -48,7 +44,7 @@ register.handleRegister(req,res,pool,bcrypt,jwt)
 
 //signIn
 app.post('/signIn',(req,res)=>{
-signIn.handleSignIn(req,res,pool,bcrypt,jwt);
+signIn.handleSignIn(req,res,pool,bcrypt);
 // res.status(200).json(req.body);
 // res.status(200).json('😆')
 
@@ -86,5 +82,5 @@ res.status(200).json(data.rows);
 */
 
 app.listen(PORT,()=>{
-console.log(`App is running on ${PORT} Number`);
+console.log(`App is running on port ${PORT} `);
 })

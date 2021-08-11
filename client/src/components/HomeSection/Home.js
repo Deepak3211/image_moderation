@@ -62,11 +62,11 @@ inputs: inputData
 })
 .then((response) => {
 
-// console.log(response.data);
+console.log(response.data);
 if (response) {
 axios.post(`${process.env.REACT_APP_ROUTES}/image`,
 {
-full_name: user?.email.substring(0, user.email.lastIndexOf('@')) || user?.full_name,  
+full_name: user.email.substring(0,user.email.lastIndexOf('@')).toUpperCase() ,  
 image: inputData,
 predicted_concepts: response.data.name,
 probability: response.data.value.toFixed(2) 
@@ -91,10 +91,10 @@ return (
 <div className = 'home'>
 <div className="input__header">
 <div className="input__profile">
-<div className='input__profileIcon' >{user?.email[0].toUpperCase() || user?.full_name[0].toUpperCase()}</div>
+<div className='input__profileIcon' >{user?.email[0].toUpperCase() }</div>
 <GoPrimitiveDot className='user__activeSign' />
 
-<h3>Hello, { user?.email.substring(0,user.email.lastIndexOf('@')).toUpperCase() || user?.full_name }  </h3>
+<h3>Hello, { user?.email.substring(0,user.email.lastIndexOf('@')).toUpperCase() }  </h3>
 </div>
 
 <div onClick = {signOut} className="input__logout">
