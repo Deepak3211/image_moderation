@@ -1,6 +1,6 @@
 const handleRegister = (req, res, pool, bcrypt) => {
   const { email, full_name, password } = req.body;
-  console.log(req.body)
+  // console.log(req.body)
 if (!email || !full_name || !password) {
 return res.status(400).json('Incorrect form submission');
 }
