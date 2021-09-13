@@ -1,3 +1,3 @@
-> Live Demo [NUDITY DETECTOR](https://image-moderator-ee7f8.web.app/)
+> Live Demo [NUDITY DETECTOR](https://image-moderator1.herokuapp.com/)
 
 # image_moderation
