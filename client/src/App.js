@@ -2,9 +2,8 @@ import './App.css'
 import Home from './components/HomeSection/Home';
 import { useStateValue } from './context/StateProvider'
 import { BrowserRouter as Router, Link, Redirect, Route, Switch } from 'react-router-dom';
-import Register from './components/RegisterSection/Register';
-import SignIn from './components/SignInSection/SignIn';
-
+import Register from './components/auth/Register'
+import Login from './components/auth/SignIn'
 const App = () => {
 const [{user}] = useStateValue();
 return (
@@ -32,7 +31,7 @@ return (
 <Switch>
 {!user? <>
 <Route path = '/register' exact component = {Register} />
-<Route path = '/signIn' exact component = {SignIn} />
+<Route path = '/signIn' exact component = {Login} />
 </>:<>
 <Route path ='/home' exact component = {Home} />
 

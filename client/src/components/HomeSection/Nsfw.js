@@ -1,6 +1,5 @@
 import React from 'react'
 import {AiOutlineEyeInvisible} from 'react-icons/ai'
-import { GoPrimitiveDot } from 'react-icons/go/'
 import './Nsfw.css';
 const Nsfw = ({  name, value,full_name }) => {
 return (

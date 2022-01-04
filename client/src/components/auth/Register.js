@@ -1,39 +1,36 @@
-import React, { useState ,useEffect} from 'react'
-import './Register.css'
+import React, { useState } from 'react'
+import './auth.css'
 import { BsFillPersonFill } from 'react-icons/bs';
 import { MdEmail, MdLock, MdCheckCircle } from 'react-icons/md/';
 import { useStateValue } from '../../context/StateProvider';
 import { SET_USER } from '../../context/action.types';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 const Register = () => {
 const [{ user }, dispatch] = useStateValue();
 // console.log('user',user);
 const [userName, setUserName] = useState('');
 const [userEmail, setUserEmail] = useState('');
 const [userPwd, setUserPwd] = useState('');
-const register =  (e) => {
-fetch(`${process.env.REACT_APP_ROUTES}/register`,{
-method: 'post',
-headers:{
-'Content-Type': 'application/json',
 
-},
-body: JSON.stringify({
+const register = async (e) => {
+e.preventDefault();
+try {
+const { data } = await axios.post('/api/v1/register', {
 full_name: userName,
 email: userEmail,
 password: userPwd
-}),
+
 })
-.then(res=> res.json())
-.then(data => {
-const {email } = data;
-// console.log('userData', data)
-if(data.id){
+// console.log(data,)
+const { id,full_name } = data;
+if(id){
 dispatch({
 type: SET_USER,
-user: data
+user: full_name,
 })
-sessionStorage.setItem('userData', JSON.stringify(email.substring(0,email.lastIndexOf('@')).toUpperCase() ));
+
+sessionStorage.setItem('userData', JSON.stringify(full_name ));
 
 }
 else{
@@ -42,12 +39,9 @@ type: SET_USER,
 user: null
 });
 }
-})
-.catch(error=> alert(error.message))
-
-e.preventDefault();
-
-}
+} catch (error) {
+console.log(error.message);
+}}
 return (
 
 <div className='register'>

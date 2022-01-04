@@ -13,9 +13,11 @@ import { GoPrimitiveDot } from 'react-icons/go/'
 const Home = () => {
 const [{user,posts},dispatch] = useStateValue();
 const [inputData, setInputData] = useState('');
-
+// console.log('posts',posts);
+  
+  
 const fetchPosts = async () => {
-await axios.get(`${process.env.REACT_APP_ROUTES}/image`)
+await axios.get('/api/v1/image')
 .then((response => {
 // console.log(response)
 dispatch({
@@ -27,9 +29,8 @@ posts: response.data
 }))
 
 }
+  
 useEffect(() => {
-
-
 const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_SECRET}`, {
 cluster: 'ap2'
 });
@@ -53,27 +54,29 @@ fetchPosts()
 }, []);
 
 
-const sendPost = (e) => {
-e.preventDefault();
-setInputData('')
-axios.post(`${process.env.REACT_APP_ROUTES}/imageUrl`, {
-inputs: inputData
+  const sendPost = async (e) => {
+  e.preventDefault();
+  try {
+    const { data } = await axios.post('/api/v1/image-url', {
+    inputs: inputData,
+    })
+    setInputData('');
+    if (data) {
+      // console.log(data)
+      axios.post('/api/v1/image', {
+        full_name: user.toUpperCase(),
+        image: inputData,
+        predicted_concepts: data.name,
+        probability: data.value.toFixed(2) * 100 + '%'
 
-})
-.then((response) => {
 
-console.log(response.data);
-if (response) {
-axios.post(`${process.env.REACT_APP_ROUTES}/image`,
-{
-full_name: user.email.substring(0,user.email.lastIndexOf('@')).toUpperCase() ,  
-image: inputData,
-predicted_concepts: response.data.name,
-probability: response.data.value.toFixed(2) 
-})
+
+      })
+    }
+  
+} catch (error) {
+  console.log(error.message);
 }
-})
-
 
 } 
 
@@ -91,10 +94,12 @@ return (
 <div className = 'home'>
 <div className="input__header">
 <div className="input__profile">
-<div className='input__profileIcon' >{user?.email[0].toUpperCase() }</div>
+<div className='input__profileIcon' >{ user[0] }</div>
 <GoPrimitiveDot className='user__activeSign' />
 
-<h3>Hello, { user?.email.substring(0,user.email.lastIndexOf('@')).toUpperCase() }  </h3>
+<h3>Hello, { user  }  </h3>
+
+
 </div>
 
 <div onClick = {signOut} className="input__logout">
@@ -120,7 +125,7 @@ placeholder = 'Paste URL of the image you want to test'
 
 
 {
-return (post.predicted_concepts === 'nsfw' && post?.probability >= '0.30' )? (
+return (post.predicted_concepts === 'nsfw' && post?.probability >= '0.50' )? (
 <Nsfw
 key={post?.id}
 full_name = {post?.full_name}
