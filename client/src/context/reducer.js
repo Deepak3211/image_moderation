@@ -2,7 +2,7 @@ import {SET_POSTS, SET_USER} from './action.types';
 
 export const initialState = {
   user: JSON.parse(sessionStorage.getItem('userData')) || null,
-  posts : ([])
+  posts : []
 };
 
 const reducer = (state, action) =>{

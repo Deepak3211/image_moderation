@@ -65,9 +65,9 @@ const posted = new Date();
 try{
 
 const postData = 'INSERT INTO posts(full_name,image,predicted_concepts,probability,posted) VALUES($1,$2,$3,$4,$5) RETURNING id';
-  await client.query(postData, [full_name, image, predicted_concepts, probability, posted]);
-  pusher.trigger("posts", "inserted", req.body);
-  res.status(200).json(req.body);
+await client.query(postData, [full_name, image, predicted_concepts, probability, posted]);
+pusher.trigger("posts", "inserted", req.body);
+res.status(200).json(req.body);
 // console.log(req.body);
 }
 catch(error){
@@ -77,23 +77,49 @@ throw error;
 })().catch(e=> console.log('error occur'));
 }
 
+
+
+// Get Post => /api/v1/image
+
 const getPostData = async (req, res) => {
 try {
 pool.query('SELECT * FROM posts ORDER BY posted DESC', (error, data) => {
 if (error) return res.status(404).json('Not Found')
 // console.log(data.rows);
- return res.status(200).json(data.rows);
+return res.status(200).json(data.rows);
 })
 } catch (error) {
-  res.status(500).json({
-    message: error.message,
-    success: false
-  });
+res.status(500).json({
+message: error.message,
+success: false
+});
+}
+}
+
+//Delete post => /api/v1/image
+
+const deletePost = (req, res) => {
+// const client = await pool.connect();
+try {
+
+pool.query('DELETE FROM posts WHERE id = $1', [req.params.id],(error, data) => {
+if (error) return res.status(400).json(error.message)
+// console.log(data);
+pusher.trigger("posts", "inserted", req.body);
+  
+return res.status(200).json({success: true, message: 'Successfully Deleted'});
+
+})
+
+} catch (error) {
+// console.log(error)
+res.status(500).json({success: false, message: error.message})
 }
 }
 module.exports = {
-  apiData,
-  createPost,
-  getPostData
+apiData,
+createPost,
+getPostData,
+deletePost
 
 }

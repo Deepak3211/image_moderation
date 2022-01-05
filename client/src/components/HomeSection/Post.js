@@ -1,10 +1,24 @@
-import React from 'react'
+import { AiFillDelete } from 'react-icons/ai'
+import { useStateValue } from '../../context/StateProvider'
 import './Post.css'
 
-const Post = ({full_name, name, value, image }) => {
+const Post = ({full_name, name, value, image ,id,removePost}) => {
+const [{ user}] = useStateValue();
+// console.log(user,full_name);
+
+
 return (
 <div className="input__results">
 {/* <h2>Image Moderation</h2> */}
+{full_name === user.toUpperCase() ? (
+<div className='delete__post' >
+<AiFillDelete
+onClick = {()=>removePost(id)}
+
+className='delete__icon' /></div>
+)
+: ''}
+
 <div className="user__profile">
 
 <div className='user__profileIcon' >{ full_name[0].toUpperCase()}</div>
@@ -25,6 +39,7 @@ return (
 {value}
 </span>
 </div>
+
 </div>
 )
 }

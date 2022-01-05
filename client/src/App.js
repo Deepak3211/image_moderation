@@ -4,11 +4,13 @@ import { useStateValue } from './context/StateProvider'
 import { BrowserRouter as Router, Link, Redirect, Route, Switch } from 'react-router-dom';
 import Register from './components/auth/Register'
 import Login from './components/auth/SignIn'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const App = () => {
 const [{user}] = useStateValue();
 return (
 <Router>
-
+<ToastContainer />
 <div className = 'app'>
 {!user ? <div className = 'auth__container'>
 <Link to='/register'>

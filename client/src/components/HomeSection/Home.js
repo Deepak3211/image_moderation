@@ -9,17 +9,18 @@ import axios from 'axios';
 import Nsfw from './Nsfw';
 import Pusher from 'pusher-js';
 import { GoPrimitiveDot } from 'react-icons/go/'
+import { toast } from 'react-toastify';
 
 const Home = () => {
 const [{user,posts},dispatch] = useStateValue();
 const [inputData, setInputData] = useState('');
 // console.log('posts',posts);
-  
-  
+
+
 const fetchPosts = async () => {
 await axios.get('/api/v1/image')
 .then((response => {
-// console.log(response)
+// console.log(response.data)
 dispatch({
 type: SET_POSTS,
 posts: response.data
@@ -29,7 +30,7 @@ posts: response.data
 }))
 
 }
-  
+
 useEffect(() => {
 const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_SECRET}`, {
 cluster: 'ap2'
@@ -54,28 +55,28 @@ fetchPosts()
 }, []);
 
 
-  const sendPost = async (e) => {
-  e.preventDefault();
-  try {
-    const { data } = await axios.post('/api/v1/image-url', {
-    inputs: inputData,
-    })
-    setInputData('');
-    if (data) {
-      // console.log(data)
-      axios.post('/api/v1/image', {
-        full_name: user.toUpperCase(),
-        image: inputData,
-        predicted_concepts: data.name,
-        probability: data.value.toFixed(2) * 100 + '%'
+const sendPost = async (e) => {
+e.preventDefault();
+try {
+const { data } = await axios.post('/api/v1/image-url', {
+inputs: inputData,
+})
+setInputData('');
+if (data) {
+// console.log(data)
+axios.post('/api/v1/image', {
+full_name: user.toUpperCase(),
+image: inputData,
+predicted_concepts: data.name,
+probability: data.value.toFixed(2) * 100 + '%'
 
 
 
-      })
-    }
-  
+})
+}
+
 } catch (error) {
-  console.log(error.message);
+console.log(error.message);
 }
 
 } 
@@ -87,6 +88,36 @@ type: SET_USER,
 user: null
 })
 sessionStorage.removeItem('userData')
+}
+}
+
+
+const removePost = async (id) => {
+try {
+if (window.confirm('Do you want to remove this post?')) {
+const { data } = await axios.delete(`/api/v1/image-data/${id}`)
+// console.log(data,'llll');
+if (data) {
+
+dispatch({
+type: SET_POSTS,
+posts: []
+
+
+})
+
+}
+toast(data.message, {
+position: "top-center",
+autoClose: 5000,
+})
+
+}
+} catch (err) {
+toast.error(err.response.data.message, {
+position: "top-center",
+autoClose: 5000,
+})
 }
 }
 return (
@@ -131,16 +162,20 @@ key={post?.id}
 full_name = {post?.full_name}
 value={post?.probability}
 name={post?.predicted_concepts}
+id={post?.id}
+removePost = {removePost}
 />
 
 ): (
 <Post
 key={post?.id}
 full_name={post?.full_name}
-
+id={post?.id}
 image = {post?.image}
 value = {post?.probability}
-name = {post?.predicted_concepts}
+name={post?.predicted_concepts}
+removePost = {removePost}
+
 />     
 )
 
